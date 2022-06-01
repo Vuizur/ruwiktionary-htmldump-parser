@@ -54,9 +54,9 @@ def get_morph_table_words(morph_table) -> list[str]:
 
 def extract_definition_from_section(entry_data: EntryData, section: PageElement):
     """Updates the entry data with the definitions"""
-    #find the h4 tag which has an id that contains the word "Значение"
+    # find the h4 tag which has an id that contains the word "Значение"
     definition_el = section.find("h4", id=re.compile("Значение"))
-    #definition_el = section.find("h4", id="Значение")
+    # definition_el = section.find("h4", id="Значение")
     if definition_el == None:
         return
     else:
@@ -72,13 +72,13 @@ def extract_entry_data_from_section(morphology_section: PageElement) -> EntryDat
     #  <section>
     #    <h3 id="Морфологические и синтаксические свойства">
     #    <table class="morfotable-ru">
-    lemma_p = morphology_section.find("p", about=True)
-    if lemma_p == None:
+    try:
+        lemma_p = morphology_section.find("p", about=True)
+        lemma = get_lemma(lemma_p.b)
+    except Exception:
         # This does sometimes happen with weird formatted (second) etymologies
-        logging.error("No lemma found in section: " + str(morphology_section))
+        logging.info("No lemma found in section: " + str(morphology_section))
         return None
-
-    lemma = get_lemma(lemma_p.b)
     entry_data = EntryData(lemma)
 
     morpher_table = morphology_section.find("table", {"class": "morfotable"})
@@ -100,7 +100,7 @@ def append_definition_to_entry_data(
     entry_data: EntryData, section_containing_lemma: PageElement
 ) -> None:
     for next_sbln in section_containing_lemma.next_siblings:
-        if next_sbln.find("h3", id="Семантические_свойства"):
+        if next_sbln.find("h3", id=re.compile("Семантические_свойства")):
             extract_definition_from_section(entry_data, next_sbln.find("section"))
 
 
@@ -124,7 +124,9 @@ def get_stressed_words_from_html(html: str) -> list[EntryData]:
                         if sibling.name == "section":
                             # Get first subsection
                             first_subsection = sibling.find("section")
-                            entry_data = extract_entry_data_from_section(first_subsection)
+                            entry_data = extract_entry_data_from_section(
+                                first_subsection
+                            )
                             if entry_data != None:
                                 entry_data_list.append(entry_data)
                     return entry_data_list
