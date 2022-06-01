@@ -1,0 +1,3 @@
+poetry.lock
+ruwiktionary_htmldump_parser/__pycache__/*
+ruwiktionary_words.json

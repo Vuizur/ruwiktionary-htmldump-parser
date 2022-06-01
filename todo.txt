@@ -1,0 +1,3 @@
+* Extract more information
+* Extract inflections that are not in a table, but instead in the text
+* Fix definition extraction for entries with different etymologies
