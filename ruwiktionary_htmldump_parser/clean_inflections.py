@@ -58,7 +58,7 @@ def clean_inflection(entry_data: EntryData) -> EntryData:
                 fixed_inflections.append(inflection)
         else:
             fixed_inflections.append(inflection)
-    
+
     entry_data.inflections = fixed_inflections
     # Remove duplicates
     entry_data.inflections = list(set(entry_data.inflections))

@@ -10,6 +10,7 @@ import re
 
 from clean_inflections import clean_inflection
 from entry_data import EntryData
+from entry_data import print_entry_data_list_to_json
 
 # has to contain cyrillic, but not the characters only other slavic languages have
 
@@ -86,13 +87,14 @@ def extract_entry_data_from_section(morphology_section: PageElement) -> EntryDat
 
     try:
         # Find the second paragraph tag in the morphology section
-        grammar_info_paragraph = morphology_section.find("p", about=True).find_next_sibling("p")
+        grammar_info_paragraph = morphology_section.find(
+            "p", about=True
+        ).find_next_sibling("p")
         entry_data.grammar_info = grammar_info_paragraph.text.strip()
-        
+
     except Exception:
         # This does sometimes happen with weird formatted (second) etymologies
         logging.info("No grammar info found in section: " + str(morphology_section))
-        
 
     morpher_table = morphology_section.find("table", {"class": "morfotable"})
 
@@ -154,26 +156,6 @@ def get_stressed_words_from_html(html: str) -> list[EntryData]:
         return []
 
 
-class EnhancedJSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if dataclasses.is_dataclass(o):
-            return dataclasses.asdict(o)
-        return super().default(o)
-
-
-def print_entry_data_list_to_json(
-    entry_data_list: list[EntryData], json_file_name: str
-):
-    with open(json_file_name, "w", encoding="utf-8") as json_file:
-        json.dump(
-            entry_data_list,
-            json_file,
-            cls=EnhancedJSONEncoder,
-            indent=2,
-            ensure_ascii=False,
-        )
-
-
 def extract_entries_from_html_dump(dump_folder_path, json_file_path) -> None:
     """Extracts entries from the HTML dump and dumps them to a JSON file"""
     entry_data_all_words: list[EntryData] = []
@@ -219,12 +201,10 @@ if __name__ == "__main__":
         default="extracted_data.json",
     )
 
-    
     args = parser.parse_args()
 
-    #extract_entries_from_html_dump(args.dump_folder_path, args.json_file_name)
+    # extract_entries_from_html_dump(args.dump_folder_path, args.json_file_name)
 
-   
     json_path = "ruwiktionary_words.json"
     dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
     extract_entries_from_html_dump(dump_folder_path, json_path)

@@ -8,7 +8,6 @@ authors = ["Vuizur <Vuizur@users.noreply.github.com>"]
 python = "^3.10"
 lxml = "*"
 beautifulsoup4 = "*"
-dataclasses-json = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
