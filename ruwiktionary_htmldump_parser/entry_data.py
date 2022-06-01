@@ -1,7 +1,5 @@
 import dataclasses
 import json
-from dataclasses_json import dataclass_json
-
 
 @dataclasses.dataclass
 class EntryData:

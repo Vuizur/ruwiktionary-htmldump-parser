@@ -1,6 +1,9 @@
 import json
 from entry_data import EntryData
 from ruwiktionary_htmldump_parser.entry_data import print_entry_data_list_to_json
+from ruwiktionary_htmldump_parser.helper_methods import unaccentify
+
+# Here the a bit more agressive cleanup is performed
 
 
 def add_po_to_degrees(degrees: list[str]) -> list[str]:
@@ -72,6 +75,7 @@ def remove_pointless_no_example_complaint(entry_data: EntryData) -> EntryData:
         ).strip()
         for definition in entry_data.definitions
     ]
+    return entry_data
 
 
 def read_json_to_entry_data_list(json_file_path: str) -> list[EntryData]:
@@ -87,73 +91,59 @@ def remove_separate_inflection_entries(
     # We want to remove inflections as own entries. We can do this by by looking at entries which are in the inflections
     # of other entries and have in their definition a reference to their base word ("от ...")
 
-    return entry_data_list
+    # Create a dictionary with the inflections as keys and the base words as values
+    inflection_to_base_word_dict: dict[str, list[str]] = {}
+    for entry_data in entry_data_list:
+        for inflection in entry_data.inflections:
+            # Append the base word to the list of base words for this inflection, so that we have a list
+            # of base words for each inflection
+            inflection_to_base_word_dict.setdefault(inflection, []).append(
+                entry_data.word
+            )
+
+    filtered_entry_data_list: list[EntryData] = []
+    # Iterate through the entries that have no inflections
+    for entry_data in entry_data_list:
+        if (
+            len(entry_data.inflections) == 0
+            and entry_data.word in inflection_to_base_word_dict
+        ):
+            base_words = inflection_to_base_word_dict[entry_data.word]
+            for base_word in base_words:
+                for definition in entry_data.definitions:
+                    if "от " + unaccentify(base_word) in definition:
+                        entry_data.definitions.remove(definition)
+                        #print("Removed definition: " + definition)
+            if entry_data.definitions == []:
+                continue
+        filtered_entry_data_list.append(entry_data)
+
+    return filtered_entry_data_list
 
 
 def fix_up_entry_data_list_complete(
     entry_data_list: list[EntryData],
 ) -> list[EntryData]:
-    fixed_entry_data_list: list[EntryData] = []
-    for entry_data in entry_data_list:
-        entry_data = add_comparative_from_grammar_info_to_inflections(entry_data)
-        fixed_entry_data_list.append(remove_pointless_no_example_complaint(entry_data))
-    return entry_data_list
+
+    fixed_list = [
+        remove_pointless_no_example_complaint(
+            add_comparative_from_grammar_info_to_inflections(entry_data)
+        )
+        for entry_data in entry_data_list
+    ]
+
+    fixed_list = remove_separate_inflection_entries(fixed_list)
+
+    return fixed_list
 
 
 if __name__ == "__main__":
-    # osto = EntryData(**{
-    # "word": "неосторо́жный",
-    # "inflections": [
-    #  "неосторо́жные",
-    #  "неосторо́жную",
-    #  "неосторо́жною",
-    #  "неосторо́жен",
-    #  "неосторо́жных",
-    #  "неосторо́жного",
-    #  "неосторо́жны",
-    #  "неосторо́жное",
-    #  "неосторо́жному",
-    #  "неосторо́жно",
-    #  "неосторо́жном",
-    #  "неосторо́жна",
-    #  "неосторо́жным",
-    #  "неосторо́жными",
-    #  "неосторо́жной",
-    #  "неосторо́жная",
-    #  "понеосторо́жнее",
-    #  "понеосторо́жней",
-    #  "неосторо́жнее",
-    #  "неосторо́жней"
-    # ],
-    # "definitions": [
-    #  "действующий без необходимой осторожности (о человеке)",
-    #  "совершаемый опрометчиво, без необходимой осторожности (о действиях, поступках, высказываниях и т. п.)"
-    # ],
-    # "grammar_info": "Прилагательное, качественное, тип склонения по классификации А. Зализняка — 1*a. Сравнительная степень — неосторо́жнее, неосторо́жней.",
-    # "IPA": "nʲɪəstɐˈroʐnɨɪ̯"
-    # })
-
-    # fix_up_entry_data_list_complete([osto])
-    #
-    # print(osto)
-    #
-    # print(fill_up_comparative_degrees(["неосторо́жнее", "неосторо́жней"]))
-    # quit()
     entry_data_list = read_json_to_entry_data_list("ruwiktionary_words.json")
+    # Export the first 500 entries
+    # entry_data_list500 = entry_data_list[:500]
+    # print_entry_data_list_to_json(entry_data_list500, "ruwiktionary_words_500.json")
 
     entry_data_list = fix_up_entry_data_list_complete(entry_data_list)
 
     # Print entry data list to json
     print_entry_data_list_to_json(entry_data_list, "ruwiktionary_words_fixed.json")
-
-    # Print the first 10 items of entry data list
-    for entry_data in entry_data_list[:10]:
-        print(entry_data)
-        print("\n")
-
-    comparative_degrees = "Сравнительная степень — просторе́чнее.".split(
-        "Сравнительная степень — "
-    )[1].split(".")[0]
-    print(comparative_degrees.split(", "))
-
-    print(len("ре́"))
