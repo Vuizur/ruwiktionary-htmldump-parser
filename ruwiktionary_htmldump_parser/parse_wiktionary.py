@@ -1,8 +1,10 @@
+import argparse
 from dataclasses import dataclass
 import dataclasses
 import logging
 import os
 import json
+import sys
 from bs4 import BeautifulSoup, PageElement
 import re
 
@@ -172,10 +174,11 @@ def print_entry_data_list_to_json(
         )
 
 
-def extract_words_from_html_dump() -> None:
+def extract_entries_from_html_dump(dump_folder_path, json_file_path) -> None:
+    """Extracts entries from the HTML dump and dumps them to a JSON file"""
     entry_data_all_words: list[EntryData] = []
     i = 0
-    for path in os.scandir("D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"):
+    for path in os.scandir(dump_folder_path):
         filename = path.path
         print(filename)
         with open(filename, "r", encoding="utf-8") as f:
@@ -199,8 +202,29 @@ def extract_words_from_html_dump() -> None:
     for entry_data in entry_data_all_words:
         entry_data = clean_inflection(entry_data)
 
-    print_entry_data_list_to_json(entry_data_all_words, "ruwiktionary_words.json")
+    print_entry_data_list_to_json(entry_data_all_words, json_file_path)
 
 
 if __name__ == "__main__":
-    extract_words_from_html_dump()
+    # Take a command line parameter called "dump folder path" using Argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "dump_folder_path", help="The path to the folder containing the HTML dump"
+    )
+    # Add a command line parameter called "json file name" using Argparse
+    # and add a default value
+    parser.add_argument(
+        "json_file_name",
+        help="The name of the JSON file to write the extracted data to",
+        default="extracted_data.json",
+    )
+
+    
+    args = parser.parse_args()
+
+    #extract_entries_from_html_dump(args.dump_folder_path, args.json_file_name)
+
+   
+    json_path = "ruwiktionary_words.json"
+    dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
+    extract_entries_from_html_dump(dump_folder_path, json_path)

@@ -1,6 +1,7 @@
 import dataclasses
+from dataclasses_json import dataclass_json
 
-
+@dataclass_json
 @dataclasses.dataclass
 class EntryData:
     """Contains the data of one etymology"""

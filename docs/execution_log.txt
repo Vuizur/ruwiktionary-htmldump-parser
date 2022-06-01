@@ -1,0 +1,343 @@
+Errors that need to be fixed on Wiktionary:
+
+PARSE ERROR for the word как корова языком слизнула: 'NoneType' object has no attribute 'children'
+190000
+PARSE ERROR for the word сверхкриминальный: 'NoneType' object has no attribute 'find'
+195000
+PARSE ERROR for the word сбледнуть: 'NoneType' object has no attribute 'find'
+200000
+PARSE ERROR for the word племяшка: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word загоризонтный: 'NoneType' object has no attribute 'find'
+205000
+210000
+215000
+PARSE ERROR for the word сверхдержавие: 'NoneType' object has no attribute 'find'
+220000
+PARSE ERROR for the word коломенская верста: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word самиздатом: 'NoneType' object has no attribute 'find'
+225000
+PARSE ERROR for the word сайт-портал: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word нойон: 'NoneType' object has no attribute 'find'
+230000
+PARSE ERROR for the word чувствовать себя как дома: 'NoneType' object has no attribute 'find'
+235000
+240000
+PARSE ERROR for the word китара: 'NoneType' object has no attribute 'find'
+245000
+250000
+255000
+260000
+PARSE ERROR for the word вертушечник: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word словоизлияние: 'NoneType' object has no attribute 'children'
+265000
+PARSE ERROR for the word взад-вперёд: 'NoneType' object has no attribute 'find'
+270000
+275000
+280000
+285000
+PARSE ERROR for the word нона: 'NoneType' object has no attribute 'find'
+290000
+PARSE ERROR for the word ихтиология: 'NoneType' object has no attribute 'find'
+295000
+300000
+PARSE ERROR for the word сателлитный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word юс: 'NoneType' object has no attribute 'find'
+305000
+PARSE ERROR for the word взаимовлиять: 'NoneType' object has no attribute 'find'
+310000
+PARSE ERROR for the word самовыдвинуться: 'NoneType' object has no attribute 'find'
+315000
+D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json\ruwiktionary_1.ndjson
+320000
+PARSE ERROR for the word самоаттестация: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сборница: 'NoneType' object has no attribute 'find'
+325000
+330000
+PARSE ERROR for the word видеодизайнер: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word самолёт-такси: 'NoneType' object has no attribute 'find'
+335000
+PARSE ERROR for the word пестринка: 'NoneType' object has no attribute 'find'
+340000
+345000
+350000
+355000
+360000
+365000
+370000
+375000
+380000
+385000
+PARSE ERROR for the word светоотверждающий: 'NoneType' object has no attribute 'find'
+390000
+PARSE ERROR for the word зарослина: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сверхтехнология: 'NoneType' object has no attribute 'find'
+395000
+PARSE ERROR for the word видеоартист: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word свингинг: 'NoneType' object has no attribute 'find'
+400000
+405000
+PARSE ERROR for the word визуальность: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word видеодневник: 'NoneType' object has no attribute 'find'
+410000
+415000
+PARSE ERROR for the word организм: 'NoneType' object has no attribute 'find'
+420000
+425000
+430000
+435000
+440000
+445000
+PARSE ERROR for the word сверхкраткосрочный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word видеопрезентация: 'NoneType' object has no attribute 'find'
+450000
+455000
+PARSE ERROR for the word сатанизировать: 'NoneType' object has no attribute 'find'
+460000
+PARSE ERROR for the word светоотверждающийся: 'NoneType' object has no attribute 'find'
+465000
+470000
+PARSE ERROR for the word садомазохистски: 'NoneType' object has no attribute 'find'
+475000
+PARSE ERROR for the word гигантопитек: 'NoneType' object has no attribute 'find'
+480000
+PARSE ERROR for the word сайтхолдер: 'NoneType' object has no attribute 'find'
+485000
+PARSE ERROR for the word мультимедиальный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word видеодизайн: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word Урманов: 'NoneType' object has no attribute 'children'
+490000
+495000
+500000
+505000
+PARSE ERROR for the word самиздатовец: 'NoneType' object has no attribute 'find'
+510000
+PARSE ERROR for the word видеобонус: 'NoneType' object has no attribute 'find'
+515000
+520000
+525000
+530000
+PARSE ERROR for the word видеокомпиляция: 'NoneType' object has no attribute 'find'
+535000
+PARSE ERROR for the word сберзаём: 'NoneType' object has no attribute 'find'
+540000
+545000
+550000
+PARSE ERROR for the word аренбишный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word плазмидный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word жёлтый: 'NoneType' object has no attribute 'find'
+555000
+560000
+PARSE ERROR for the word мать-мачеха: 'NoneType' object has no attribute 'children'
+565000
+570000
+PARSE ERROR for the word сааб: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word табун: 'NoneType' object has no attribute 'find'
+575000
+PARSE ERROR for the word видеопослание: 'NoneType' object has no attribute 'find'
+580000
+PARSE ERROR for the word самиздатчик: 'NoneType' object has no attribute 'find'
+585000
+590000
+595000
+600000
+PARSE ERROR for the word светоотверждаемый: 'NoneType' object has no attribute 'find'
+605000
+PARSE ERROR for the word овцебык: 'NoneType' object has no attribute 'find'
+610000
+PARSE ERROR for the word осечка: 'NoneType' object has no attribute 'children'
+PARSE ERROR for the word шелковница: 'NoneType' object has no attribute 'children'
+615000
+PARSE ERROR for the word гингивит: 'NoneType' object has no attribute 'find'
+620000
+PARSE ERROR for the word сайдмен: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word техно: 'NoneType' object has no attribute 'find'
+625000
+630000
+635000
+D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json\ruwiktionary_2.ndjson
+640000
+PARSE ERROR for the word заливать за воротник: 'NoneType' object has no attribute 'children'
+645000
+PARSE ERROR for the word элементаль: 'NoneType' object has no attribute 'find'
+650000
+655000
+660000
+665000
+PARSE ERROR for the word видеоигровой: 'NoneType' object has no attribute 'find'
+670000
+PARSE ERROR for the word самоходчик: 'NoneType' object has no attribute 'find'
+675000
+PARSE ERROR for the word вагнерианец: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word видеоретроспектива: 'NoneType' object has no attribute 'find'
+680000
+PARSE ERROR for the word биологически: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word за версту: 'NoneType' object has no attribute 'find'
+685000
+PARSE ERROR for the word видеоподложка: 'NoneType' object has no attribute 'find'
+690000
+695000
+700000
+PARSE ERROR for the word пяденица: 'NoneType' object has no attribute 'find'
+705000
+PARSE ERROR for the word садомазохистка: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word улыбка Гагарина: 'NoneType' object has no attribute 'find'
+710000
+PARSE ERROR for the word семь вёрст до небес: 'NoneType' object has no attribute 'find'
+715000
+PARSE ERROR for the word видеобиография: 'NoneType' object has no attribute 'find'
+720000
+PARSE ERROR for the word мокьюментари: 'NoneType' object has no attribute 'find'
+725000
+730000
+735000
+740000
+745000
+PARSE ERROR for the word аудиоподкаст: 'NoneType' object has no attribute 'find'
+750000
+755000
+PARSE ERROR for the word самиздатный: 'NoneType' object has no attribute 'find'
+760000
+PARSE ERROR for the word разбивать: 'NoneType' object has no attribute 'find'
+765000
+770000
+775000
+PARSE ERROR for the word видеопродюсер: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word чапарраль: 'NoneType' object has no attribute 'children'
+780000
+PARSE ERROR for the word видеоподкаст: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word видеонарезка: 'NoneType' object has no attribute 'find'
+785000
+PARSE ERROR for the word свинг-клуб: 'NoneType' object has no attribute 'find'
+790000
+795000
+800000
+PARSE ERROR for the word видеоколлаж: 'NoneType' object has no attribute 'find'
+805000
+810000
+PARSE ERROR for the word свингерство: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word затянуть ремень потуже: 'NoneType' object has no attribute 'children'
+815000
+PARSE ERROR for the word видеоперформанс: 'NoneType' object has no attribute 'find'
+820000
+PARSE ERROR for the word фантастика: 'NoneType' object has no attribute 'find'
+825000
+830000
+PARSE ERROR for the word видеоанимация: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сверхдемократ: 'NoneType' object has no attribute 'find'
+835000
+PARSE ERROR for the word Мальчик-с-пальчик: 'NoneType' object has no attribute 'children'
+PARSE ERROR for the word видеосборник: 'NoneType' object has no attribute 'find'
+840000
+PARSE ERROR for the word сверхгибкий: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сверхтехнологичный: 'NoneType' object has no attribute 'find'
+845000
+850000
+PARSE ERROR for the word собачиться: 'NoneType' object has no attribute 'find'
+855000
+860000
+865000
+PARSE ERROR for the word садюшка: 'NoneType' object has no attribute 'find'
+870000
+PARSE ERROR for the word сайт-двойник: 'NoneType' object has no attribute 'find'
+875000
+880000
+PARSE ERROR for the word самопальщик: 'NoneType' object has no attribute 'find'
+885000
+PARSE ERROR for the word рада: 'NoneType' object has no attribute 'find'
+890000
+895000
+PARSE ERROR for the word уроборос: 'NoneType' object has no attribute 'find'
+900000
+905000
+910000
+915000
+920000
+PARSE ERROR for the word самовыкуп: 'NoneType' object has no attribute 'find'
+925000
+PARSE ERROR for the word ринк-бенди: 'NoneType' object has no attribute 'find'
+930000
+PARSE ERROR for the word самопровозглашать: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word веловождение: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сверхпатриотичный: 'NoneType' object has no attribute 'find'
+935000
+PARSE ERROR for the word свингер-клуб: 'NoneType' object has no attribute 'find'
+940000
+PARSE ERROR for the word сатанизация: 'NoneType' object has no attribute 'find'
+945000
+950000
+PARSE ERROR for the word видеоинтервью: 'NoneType' object has no attribute 'find'
+955000
+D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json\ruwiktionary_3.ndjson
+960000
+965000
+PARSE ERROR for the word самопровозгласить: 'NoneType' object has no attribute 'find'
+970000
+PARSE ERROR for the word весенне-летний: 'NoneType' object has no attribute 'find'
+975000
+980000
+985000
+990000
+PARSE ERROR for the word взаимоотталкивающий: 'NoneType' object has no attribute 'find'
+995000
+1000000
+1005000
+PARSE ERROR for the word видеодепартамент: 'NoneType' object has no attribute 'find'
+1010000
+PARSE ERROR for the word вензаболевание: 'NoneType' object has no attribute 'find'
+1015000
+1020000
+1025000
+PARSE ERROR for the word видеопоказ: 'NoneType' object has no attribute 'find'
+1030000
+1035000
+1040000
+1045000
+PARSE ERROR for the word супчик: 'NoneType' object has no attribute 'children'
+PARSE ERROR for the word продюсирование: 'NoneType' object has no attribute 'find'
+1050000
+PARSE ERROR for the word носуха: 'NoneType' object has no attribute 'find'
+1055000
+1060000
+PARSE ERROR for the word видеоподтверждение: 'NoneType' object has no attribute 'find'
+1065000
+PARSE ERROR for the word рептильный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word виральность: 'NoneType' object has no attribute 'find'
+1070000
+PARSE ERROR for the word перевешение порток на другой гвоздок: 'NoneType' object has no attribute 'children'
+1075000
+PARSE ERROR for the word постпозитивный: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word светлуха: 'NoneType' object has no attribute 'find'
+1080000
+1085000
+1090000
+1095000
+1100000
+PARSE ERROR for the word самоназначенец: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word придира: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word видеоманифест: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сверхмонопольный: 'NoneType' object has no attribute 'find'
+1105000
+1110000
+1115000
+PARSE ERROR for the word паркетник: 'NoneType' object has no attribute 'find'
+1120000
+1125000
+PARSE ERROR for the word сверхльготный: 'NoneType' object has no attribute 'find'
+1130000
+1135000
+PARSE ERROR for the word видеоблогерство: 'NoneType' object has no attribute 'find'
+1140000
+1145000
+PARSE ERROR for the word пудра не порох, букли не пушки, коса не тесак: 'NoneType' object has no attribute 'children'
+1150000
+PARSE ERROR for the word даже в заднице зубы: 'NoneType' object has no attribute 'children'
+1155000
+1160000
+PARSE ERROR for the word сайт-каталог: 'NoneType' object has no attribute 'find'
+PARSE ERROR for the word сверхмассовый: 'NoneType' object has no attribute 'find'
+1165000
+PARSE ERROR for the word покой: 'NoneType' object has no attribute 'find'
+1170000
+PARSE ERROR for the word самореформироваться: 'NoneType' object has no attribute 'find'
+1175000
+1180000
