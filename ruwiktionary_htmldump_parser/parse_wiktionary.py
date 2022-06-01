@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import dataclasses
+import logging
 import os
 import json
 from bs4 import BeautifulSoup, PageElement
@@ -53,7 +54,9 @@ def get_morph_table_words(morph_table) -> list[str]:
 
 def extract_definition_from_section(entry_data: EntryData, section: PageElement):
     """Updates the entry data with the definitions"""
-    definition_el = section.find("h4", id="Значение")
+    #find the h4 tag which has an id that contains the word "Значение"
+    definition_el = section.find("h4", id=re.compile("Значение"))
+    #definition_el = section.find("h4", id="Значение")
     if definition_el == None:
         return
     else:
@@ -64,17 +67,26 @@ def extract_definition_from_section(entry_data: EntryData, section: PageElement)
                 entry_data.definitions.append(li.text)
 
 
-def extract_stressed_words_from_section(section: PageElement) -> EntryData:
-    lemma_p = section.find("p", about=True)
+def extract_entry_data_from_section(morphology_section: PageElement) -> EntryData:
+    # This takes a section with the format
+    #  <section>
+    #    <h3 id="Морфологические и синтаксические свойства">
+    #    <table class="morfotable-ru">
+    lemma_p = morphology_section.find("p", about=True)
+    if lemma_p == None:
+        # This does sometimes happen with weird formatted (second) etymologies
+        logging.error("No lemma found in section: " + str(morphology_section))
+        return None
+
     lemma = get_lemma(lemma_p.b)
     entry_data = EntryData(lemma)
 
-    morpher_table = section.find("table", {"class": "morfotable"})
+    morpher_table = morphology_section.find("table", {"class": "morfotable"})
 
     if morpher_table != None:
         entry_data.inflections.extend(get_morph_table_words(morpher_table))
-    for next_sbln in section.next_siblings:
-        if next_sbln.find("h3", id="Семантические_свойства"):
+    for next_sbln in morphology_section.next_siblings:
+        if next_sbln.find("h3", id=re.compile("Семантические_свойства")):
             extract_definition_from_section(entry_data, next_sbln.find("section"))
     return entry_data
 
@@ -102,15 +114,21 @@ def get_stressed_words_from_html(html: str) -> list[EntryData]:
         for sibling in russian_h1.next_siblings:
             if sibling.name == "section":
                 if not section_contains_two_etymologies(sibling):
-                    entry_data = extract_stressed_words_from_section(sibling)
-                    return [entry_data]
+                    entry_data = extract_entry_data_from_section(sibling)
+                    if entry_data != None:
+                        return [entry_data]
                 else:
                     entry_data_list: list[EntryData] = []
+                    # Each iteration here iterates over on etymology
                     for sibling in russian_h1.next_siblings:
                         if sibling.name == "section":
-                            entry_data = extract_stressed_words_from_section(sibling)
-                            entry_data_list.append(entry_data)
+                            # Get first subsection
+                            first_subsection = sibling.find("section")
+                            entry_data = extract_entry_data_from_section(first_subsection)
+                            if entry_data != None:
+                                entry_data_list.append(entry_data)
                     return entry_data_list
+        return []
     else:
         return []
 
@@ -152,12 +170,12 @@ def extract_words_from_html_dump() -> None:
                         )
                         if entry_data_list != None:
                             entry_data_all_words.extend(entry_data_list)
-                    except:
-                        print(f"PARSE ERROR for the word {name}")
+                    except Exception as e:
+                        print(f"PARSE ERROR for the word {name}: {e}")
                         pass
 
                 i += 1
-                if i > 1000:
+                if i > 2000:
                     break
                 # if i % 5000 == 0:
                 #    print(i)
