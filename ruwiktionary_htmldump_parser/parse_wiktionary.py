@@ -64,7 +64,7 @@ def extract_definition_from_section(entry_data: EntryData, section: PageElement)
         for li in ol.children:
             def_text = li.text
             if def_text != "" and def_text != "\n":
-                entry_data.definitions.append(li.text)
+                entry_data.definitions.append(li.text.strip())
 
 
 def extract_entry_data_from_section(morphology_section: PageElement) -> EntryData:
@@ -72,6 +72,7 @@ def extract_entry_data_from_section(morphology_section: PageElement) -> EntryDat
     #  <section>
     #    <h3 id="Морфологические и синтаксические свойства">
     #    <table class="morfotable-ru">
+
     try:
         lemma_p = morphology_section.find("p", about=True)
         lemma = get_lemma(lemma_p.b)
@@ -81,13 +82,29 @@ def extract_entry_data_from_section(morphology_section: PageElement) -> EntryDat
         return None
     entry_data = EntryData(lemma)
 
+    try:
+        # Find the second paragraph tag in the morphology section
+        grammar_info_paragraph = morphology_section.find("p", about=True).find_next_sibling("p")
+        entry_data.grammar_info = grammar_info_paragraph.text.strip()
+        
+    except Exception:
+        # This does sometimes happen with weird formatted (second) etymologies
+        logging.info("No grammar info found in section: " + str(morphology_section))
+        
+
     morpher_table = morphology_section.find("table", {"class": "morfotable"})
 
     if morpher_table != None:
         entry_data.inflections.extend(get_morph_table_words(morpher_table))
+    # Iterates through the sections with different info about the word
     for next_sbln in morphology_section.next_siblings:
         if next_sbln.find("h3", id=re.compile("Семантические_свойства")):
             extract_definition_from_section(entry_data, next_sbln.find("section"))
+        if next_sbln.find("h3", id=re.compile("Произношение")):
+            try:
+                entry_data.IPA = next_sbln.find("span", class_="IPA").text
+            except Exception:
+                logging.info("No pronunciation found in section: " + str(next_sbln))
     return entry_data
 
 
@@ -150,7 +167,7 @@ def print_entry_data_list_to_json(
             entry_data_list,
             json_file,
             cls=EnhancedJSONEncoder,
-            indent=4,
+            indent=2,
             ensure_ascii=False,
         )
 
@@ -177,10 +194,8 @@ def extract_words_from_html_dump() -> None:
                         pass
 
                 i += 1
-                if i > 2000:
-                    break
-                # if i % 5000 == 0:
-                #    print(i)
+                if i % 5000 == 0:
+                    print(i)
     for entry_data in entry_data_all_words:
         entry_data = clean_inflection(entry_data)
 
