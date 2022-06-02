@@ -1,6 +1,8 @@
 from entry_data import EntryData
 from ruwiktionary_htmldump_parser.entry_data import print_entry_data_list_to_json, read_json_to_entry_data_list
 from ruwiktionary_htmldump_parser.helper_methods import unaccentify
+import argparse
+
 
 # Here the a bit more agressive cleanup is performed
 
@@ -131,12 +133,31 @@ def fix_up_entry_data_list_complete(
 
 
 if __name__ == "__main__":
-    entry_data_list = read_json_to_entry_data_list("ruwiktionary_words.json")
-    # Export the first 500 entries
-    # entry_data_list500 = entry_data_list[:500]
-    # print_entry_data_list_to_json(entry_data_list500, "ruwiktionary_words_500.json")
+
+    # Take arguments using Argparse
+    parser = argparse.ArgumentParser(
+        description="Fix up the entries in the dictionary"
+    )
+    parser.add_argument(
+        "input_file",
+        type=str,
+        help="The input JSON file to fix up",
+        required=True,
+    )
+    parser.add_argument(
+        "output_file",
+        type=str,
+        help="The output JSON file to write to",
+        required=True,
+    )
+    args = parser.parse_args()
+
+    entry_data_list = read_json_to_entry_data_list(args.input_file)
+
+    #entry_data_list = read_json_to_entry_data_list("ruwiktionary_words.json")
 
     entry_data_list = fix_up_entry_data_list_complete(entry_data_list)
 
-    # Print entry data list to json
-    print_entry_data_list_to_json(entry_data_list, "ruwiktionary_words_fixed.json")
+    #print_entry_data_list_to_json(entry_data_list, "ruwiktionary_words_fixed.json")
+
+    print_entry_data_list_to_json(entry_data_list, args.output_file)

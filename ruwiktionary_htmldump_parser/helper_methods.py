@@ -1,10 +1,12 @@
 import unicodedata
 
+
 def is_acute_accented(phrase: str):
     for char in phrase:
-        if char == u'\u0301':
+        if char == "\u0301":
             return True
     return False
+
 
 def has_only_one_syllable(word: str):
     word_lower = word.lower()
@@ -14,38 +16,41 @@ def has_only_one_syllable(word: str):
             vowels += 1
     return vowels <= 1
 
+
 def has_acute_accent_or_only_one_syllable(word: str):
     return is_acute_accented(word) or has_only_one_syllable(word)
 
+
 ACCENT_MAPPING = {
-    '́': '',
-    '̀': '',
-    'а́': 'а',
-    'а̀': 'а',
-    'е́': 'е',
-    'ѐ': 'е',
-    'и́': 'и',
-    'ѝ': 'и',
-    'о́': 'о',
-    'о̀': 'о',
-    'у́': 'у',
-    'у̀': 'у',
-    'ы́': 'ы',
-    'ы̀': 'ы',
-    'э́': 'э',
-    'э̀': 'э',
-    'ю́': 'ю',
-    '̀ю': 'ю',
-    'я́́': 'я',
-    'я̀': 'я',
+    "́": "",
+    "̀": "",
+    "а́": "а",
+    "а̀": "а",
+    "е́": "е",
+    "ѐ": "е",
+    "и́": "и",
+    "ѝ": "и",
+    "о́": "о",
+    "о̀": "о",
+    "у́": "у",
+    "у̀": "у",
+    "ы́": "ы",
+    "ы̀": "ы",
+    "э́": "э",
+    "э̀": "э",
+    "ю́": "ю",
+    "̀ю": "ю",
+    "я́́": "я",
+    "я̀": "я",
 }
 
-ACCENT_MAPPING = {unicodedata.normalize(
-    'NFKC', i): j for i, j in ACCENT_MAPPING.items()}
+ACCENT_MAPPING = {
+    unicodedata.normalize("NFKC", i): j for i, j in ACCENT_MAPPING.items()
+}
 
 
 def unaccentify(s):
-    source = unicodedata.normalize('NFKC', s)
+    source = unicodedata.normalize("NFKC", s)
     for old, new in ACCENT_MAPPING.items():
         source = source.replace(old, new)
     return source

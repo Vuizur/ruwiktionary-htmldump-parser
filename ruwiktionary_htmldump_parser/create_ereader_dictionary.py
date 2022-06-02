@@ -1,7 +1,11 @@
-from ruwiktionary_htmldump_parser.entry_data import EntryData, read_json_to_entry_data_list
+from ruwiktionary_htmldump_parser.entry_data import (
+    EntryData,
+    read_json_to_entry_data_list,
+)
 from pyglossary.glossary import Glossary
 
 from ruwiktionary_htmldump_parser.helper_methods import unaccentify
+
 
 def get_all_inflections(entry_data: EntryData):
     """Generates unaccented inflections for the given entry data, also includes the base word as the first enty"""
@@ -10,11 +14,12 @@ def get_all_inflections(entry_data: EntryData):
         inflections.append(inflection)
         inflections.append(unaccentify(inflection))
     inflections.append(unaccentify(entry_data.word))
-    
+
     # Remove duplicates, while preserving the order of the list
     inflections = list(dict.fromkeys(inflections))
 
     return inflections
+
 
 def generate_html_from_definitions(definitions: list[str]):
     """Generates an HTML list from the given definitions"""
@@ -34,6 +39,7 @@ def generate_html_from_definitions(definitions: list[str]):
     html += "</ul>"
     return html
 
+
 def convert_line_endings(file_path: str):
     """Converts line endings in the given file to Unix style"""
     with open(file_path, "rb") as file:
@@ -42,7 +48,10 @@ def convert_line_endings(file_path: str):
     with open(file_path, "wb") as file:
         file.write(data.replace(b"\r\n", b"\n"))
 
-def create_ereader_dictionary(input_json_file_name: str, output_path: str, output_format):
+
+def create_ereader_dictionary(
+    input_json_file_name: str, output_path: str, output_format
+):
     """Creates an Ereader dictionary out of the JSON file using Pyglossary"""
 
     # Load the JSON file
@@ -68,10 +77,11 @@ def create_ereader_dictionary(input_json_file_name: str, output_path: str, outpu
     glos.setInfo("author", "Русский Викисловарь")
     glos.sourceLangName = "Russian"
     glos.targetLangName = "Russian"
-    
-    output_path = output_path.rsplit(".", 1)[0]
-
-    if output_format == "Stardict":    
+    try:
+        output_path = output_path.rsplit(".", 1)[0]
+    except:
+        pass
+    if output_format == "Stardict":
         # Remove the extension from the output path
         print("Writing dictionary to " + output_path + ".ifo")
         glos.write(output_path + ".ifo", format="Stardict")
@@ -82,9 +92,33 @@ def create_ereader_dictionary(input_json_file_name: str, output_path: str, outpu
         print("Writing dictionary to " + output_path + ".txt")
         glos.write(output_path + ".txt", format="Tabfile")
 
-if __name__ == "__main__":
-    create_ereader_dictionary(
-        "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt", "Stardict"
-    )
-    #convert_line_endings("Russian-Russian dictionary.ifo")
 
+if __name__ == "__main__":
+
+    # Create a CLI using argparse#
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Creates an Ereader dictionary out of the JSON file using Pyglossary"
+    )
+    parser.add_argument(
+        "input_json_file_name",
+        help="The JSON file containing the data of the Wiktionary entries",
+    )
+    parser.add_argument(
+        "output_path",
+        help="The path to the output file. The extension will be added automatically.",
+    )
+    parser.add_argument(
+        "output_format",
+        help="The format of the output file. Either Stardict or Tabfile.",
+    )
+
+    args = parser.parse_args()
+    create_ereader_dictionary(
+        args.input_json_file_name, args.output_path, args.output_format
+    )
+
+    # create_ereader_dictionary(
+    #    "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt", "Stardict"
+    # )

@@ -1,6 +1,6 @@
 # Russian Wiktionary HTML dump parser
 
-This parses the Russian entries of the Russian Wiktionary using the HTML dump that can be found [here](https://dumps.wikimedia.org/other/enterprise_html/) into a JSON file. 
+This parses the Russian entries of the Russian Wiktionary using the HTML dump that can be found [here](https://dumps.wikimedia.org/other/enterprise_html/) into a JSON file and into dictionaries for ebook readers. 
 
 At the end the output looks like this:
 ```
@@ -25,7 +25,7 @@ At the end the output looks like this:
 }
 ```
 
-The generated JSON file can be found in the Releases section so that you don't have to run the script yourself.
+The generated JSON file and the dictionaries (Stardict, Tabfile with html) can be found in the Releases section so that you don't have to run the script yourself. It uses pyglossary for the dictionary generation, so you can simply change the parameters to generate the format you want.
 
 ### Details
 It additionally performs some cleanup and adds the comparative forms (which are not in the tables, but instead in the text) to the inflections, generating their alternative forms. Pages with multiple etymologies are also supported, and by default it deletes unneeded inflection entries that have no other content than being an inflection.
