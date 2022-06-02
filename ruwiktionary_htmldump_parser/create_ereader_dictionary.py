@@ -20,12 +20,29 @@ def generate_html_from_definitions(definitions: list[str]):
     """Generates an HTML list from the given definitions"""
     html = "<ul>"
     for definition in definitions:
-        html += "<li>" + definition + "</li>"
+        # In the definition, write everything after "◆" in italics
+        # and everything before "◆" in normal text
+        html += "<li>"
+        if "◆" in definition:
+            html += definition.split("◆")[0]
+            # Add the rest in italics
+            html += "<i>" + "◆" + definition.split("◆")[1] + "</i>"
+        else:
+            html += definition
+        html += "</li>"
+
     html += "</ul>"
     return html
 
+def convert_line_endings(file_path: str):
+    """Converts line endings in the given file to Unix style"""
+    with open(file_path, "rb") as file:
+        data = file.read()
 
-def create_ereader_dictionary(input_json_file_name: str, output_path: str):
+    with open(file_path, "wb") as file:
+        file.write(data.replace(b"\r\n", b"\n"))
+
+def create_ereader_dictionary(input_json_file_name: str, output_path: str, output_format):
     """Creates an Ereader dictionary out of the JSON file using Pyglossary"""
 
     # Load the JSON file
@@ -52,10 +69,22 @@ def create_ereader_dictionary(input_json_file_name: str, output_path: str):
     glos.sourceLangName = "Russian"
     glos.targetLangName = "Russian"
     
-    print("Writing dictionary to " + output_path)
-    glos.write(output_path, format="Tabfile")
+    output_path = output_path.rsplit(".", 1)[0]
+
+    if output_format == "Stardict":    
+        # Remove the extension from the output path
+        print("Writing dictionary to " + output_path + ".ifo")
+        glos.write(output_path + ".ifo", format="Stardict")
+
+        convert_line_endings(output_path + ".ifo")
+
+    elif output_format == "Tabfile":
+        print("Writing dictionary to " + output_path + ".txt")
+        glos.write(output_path + ".txt", format="Tabfile")
 
 if __name__ == "__main__":
     create_ereader_dictionary(
-        "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt"
+        "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt", "Stardict"
     )
+    #convert_line_endings("Russian-Russian dictionary.ifo")
+
