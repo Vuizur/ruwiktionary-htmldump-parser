@@ -1,6 +1,5 @@
-import json
 from entry_data import EntryData
-from ruwiktionary_htmldump_parser.entry_data import print_entry_data_list_to_json
+from ruwiktionary_htmldump_parser.entry_data import print_entry_data_list_to_json, read_json_to_entry_data_list
 from ruwiktionary_htmldump_parser.helper_methods import unaccentify
 
 # Here the a bit more agressive cleanup is performed
@@ -76,12 +75,6 @@ def remove_pointless_no_example_complaint(entry_data: EntryData) -> EntryData:
         for definition in entry_data.definitions
     ]
     return entry_data
-
-
-def read_json_to_entry_data_list(json_file_path: str) -> list[EntryData]:
-    with open(json_file_path, "r", encoding="utf-8") as json_file:
-        json_data = json.load(json_file)
-        return [EntryData(**entry_json) for entry_json in json_data]
 
 
 def remove_separate_inflection_entries(

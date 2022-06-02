@@ -31,3 +31,8 @@ def print_entry_data_list_to_json(
             indent=2,
             ensure_ascii=False,
         )
+
+def read_json_to_entry_data_list(json_file_path: str) -> list[EntryData]:
+    with open(json_file_path, "r", encoding="utf-8") as json_file:
+        json_data = json.load(json_file)
+        return [EntryData(**entry_json) for entry_json in json_data]
