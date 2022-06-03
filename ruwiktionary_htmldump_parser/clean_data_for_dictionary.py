@@ -139,13 +139,13 @@ if __name__ == "__main__":
         description="Fix up the entries in the dictionary"
     )
     parser.add_argument(
-        "input_file",
+        "--input_file",
         type=str,
         help="The input JSON file to fix up",
         required=True,
     )
     parser.add_argument(
-        "output_file",
+        "--output_file",
         type=str,
         help="The output JSON file to write to",
         required=True,

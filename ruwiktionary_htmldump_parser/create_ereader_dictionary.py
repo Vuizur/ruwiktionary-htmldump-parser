@@ -102,21 +102,21 @@ if __name__ == "__main__":
         description="Creates an Ereader dictionary out of the JSON file using Pyglossary"
     )
     parser.add_argument(
-        "input_json_file_name",
+        "--json_file_name",
         help="The JSON file containing the data of the Wiktionary entries",
     )
     parser.add_argument(
-        "output_path",
+        "--output_path",
         help="The path to the output file. The extension will be added automatically.",
     )
     parser.add_argument(
-        "output_format",
+        "--output_format",
         help="The format of the output file. Either Stardict or Tabfile.",
     )
 
     args = parser.parse_args()
     create_ereader_dictionary(
-        args.input_json_file_name, args.output_path, args.output_format
+        args.json_file_name, args.output_path, args.output_format
     )
 
     # create_ereader_dictionary(

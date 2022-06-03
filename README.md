@@ -33,7 +33,9 @@ It additionally performs some cleanup and adds the comparative forms (which are 
 ### Installation
 Then should clone the project, install poetry and then run `poetry install`. 
 
-Then run `poetry run python ./ruwiktionary_htmldump_parser\parse_wiktionary.py` to parse the dictionary into a JSON file
+Then run `poetry run python ./ruwiktionary_htmldump_parser/parse_wiktionary.py --dump_folder_path D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML  --json_file_name ruwiktionary_words.json` to parse the dictionary into a JSON file
+Then run `poetry run python ./ruwiktionary_htmldump_parser/clean_data_for_dictionary.py --input_file ruwiktionary_words.json --output_file ruwiktionary_words_fixed.json` to clean the data
+Then run `poetry run python ./ruwiktionary_htmldump_parser/create_ereader_dictionary.py --json_file_name ruwiktionary_words_fixed.json --output_path Russian-Russian-dict --output_format Stardict` to generate the dictionaries
 
 # Additional info
 Be aware that for me on Windows the HTML dumps could only be unpacked using Winrar and not 7-zip

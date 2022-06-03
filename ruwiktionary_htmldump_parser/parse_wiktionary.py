@@ -191,20 +191,20 @@ if __name__ == "__main__":
     # Take a command line parameter called "dump folder path" using Argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "dump_folder_path", help="The path to the folder containing the HTML dump"
+        "--dump_folder_path", help="The path to the folder containing the HTML dump"
     )
     # Add a command line parameter called "json file name" using Argparse
     # and add a default value
     parser.add_argument(
-        "json_file_name",
+        "--json_file_name",
         help="The name of the JSON file to write the extracted data to",
         default="extracted_data.json",
     )
 
     args = parser.parse_args()
 
-    # extract_entries_from_html_dump(args.dump_folder_path, args.json_file_name)
+    extract_entries_from_html_dump(args.dump_folder_path, args.json_file_name)
 
-    json_path = "ruwiktionary_words.json"
-    dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
-    extract_entries_from_html_dump(dump_folder_path, json_path)
+    #json_path = "ruwiktionary_words.json"
+    #dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
+    #extract_entries_from_html_dump(dump_folder_path, json_path)
