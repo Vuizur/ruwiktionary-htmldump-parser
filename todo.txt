@@ -1,6 +1,8 @@
 * Extract more information
 * Extract inflections that are not in a table, but instead in the text
 * Check if the по before words can be stressed (probably not)
+* Find all unusual line terminators that VSC complains about and delete them
+* Try to export everything using Linux, because on Windows it is hopeless
 Fix:
  "word": "большо́й",
     "inflections": [

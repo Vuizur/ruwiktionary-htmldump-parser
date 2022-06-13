@@ -4,7 +4,7 @@ from ruwiktionary_htmldump_parser.entry_data import (
 )
 from pyglossary.glossary import Glossary
 
-from ruwiktionary_htmldump_parser.helper_methods import unaccentify
+from stressed_cyrillic_tools import unaccentify
 
 
 def get_all_inflections(entry_data: EntryData):
@@ -13,6 +13,9 @@ def get_all_inflections(entry_data: EntryData):
     for inflection in entry_data.inflections:
         inflections.append(inflection)
         inflections.append(unaccentify(inflection))
+    # I tried this because base words don't get found currently due to a bug in sdcv/pyglossary?
+    # But they still don't get found in the dictionary
+    # inflections.append(entry_data.word)
     inflections.append(unaccentify(entry_data.word))
 
     # Remove duplicates, while preserving the order of the list
@@ -23,7 +26,7 @@ def get_all_inflections(entry_data: EntryData):
 
 def generate_html_from_definitions(definitions: list[str]):
     """Generates an HTML list from the given definitions"""
-    html = "<ul>"
+    html = "<ol>"
     for definition in definitions:
         # In the definition, write everything after "◆" in italics
         # and everything before "◆" in normal text
@@ -36,7 +39,7 @@ def generate_html_from_definitions(definitions: list[str]):
             html += definition
         html += "</li>"
 
-    html += "</ul>"
+    html += "</ol>"
     return html
 
 
@@ -68,7 +71,7 @@ def create_ereader_dictionary(
         # Continue if no definitions are available
         if len(entry_data.definitions) == 0:
             continue
-
+        
         html = generate_html_from_definitions(entry_data.definitions)
         glos.addEntryObj(glos.newEntry(word, html, defiFormat="h"))
 
@@ -107,7 +110,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--output_path",
-        help="The path to the output file. The extension will be added automatically.",
+        help="The path to the output file",
     )
     parser.add_argument(
         "--output_format",
@@ -119,6 +122,6 @@ if __name__ == "__main__":
         args.json_file_name, args.output_path, args.output_format
     )
 
-    # create_ereader_dictionary(
-    #    "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt", "Stardict"
-    # )
+    #create_ereader_dictionary(
+    #   "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.ifo", "Stardict"
+    #)

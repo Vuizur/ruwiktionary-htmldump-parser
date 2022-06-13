@@ -1,8 +1,11 @@
 from entry_data import EntryData
-from ruwiktionary_htmldump_parser.entry_data import print_entry_data_list_to_json, read_json_to_entry_data_list
-from ruwiktionary_htmldump_parser.helper_methods import unaccentify
+from ruwiktionary_htmldump_parser.entry_data import (
+    print_entry_data_list_to_json,
+    read_json_to_entry_data_list,
+)
 import argparse
 
+from stressed_cyrillic_tools import unaccentify
 
 # Here the a bit more agressive cleanup is performed
 
@@ -108,7 +111,7 @@ def remove_separate_inflection_entries(
                 for definition in entry_data.definitions:
                     if "от " + unaccentify(base_word) in definition:
                         entry_data.definitions.remove(definition)
-                        #print("Removed definition: " + definition)
+                        # print("Removed definition: " + definition)
             if entry_data.definitions == []:
                 continue
         filtered_entry_data_list.append(entry_data)
@@ -116,13 +119,44 @@ def remove_separate_inflection_entries(
     return filtered_entry_data_list
 
 
+def remove_exotic_line_separators(word: str) -> str:
+    """Turn exotic line separators into line breaks and also remove non-breaking spaces"""
+    return (
+        word.replace("\u2028", "\n")
+        .replace("\u2029", "\n")
+        .replace("\u00a0", " ")
+        .replace("\u0085", "\n")
+        .replace("\u000C", "\n")
+        .replace("\u000B", "\n")
+    )
+
+
+# Remove LS ans PS line separators from the entry data -> They break sdcv and KOReader
+def remove_ls_ps_line_separators(entry_data: EntryData) -> EntryData:
+    entry_data.definitions = [
+        remove_exotic_line_separators(definition)
+        for definition in entry_data.definitions
+    ]
+    entry_data.word = remove_exotic_line_separators(entry_data.word)
+    entry_data.inflections = [
+        remove_exotic_line_separators(inflection)
+        for inflection in entry_data.inflections
+    ]
+    entry_data.grammar_info = remove_exotic_line_separators(entry_data.grammar_info)
+    entry_data.IPA = remove_exotic_line_separators(entry_data.IPA)
+
+    return entry_data
+
+
 def fix_up_entry_data_list_complete(
     entry_data_list: list[EntryData],
 ) -> list[EntryData]:
 
     fixed_list = [
-        remove_pointless_no_example_complaint(
-            add_comparative_from_grammar_info_to_inflections(entry_data)
+        remove_ls_ps_line_separators(
+            remove_pointless_no_example_complaint(
+                add_comparative_from_grammar_info_to_inflections(entry_data)
+            )
         )
         for entry_data in entry_data_list
     ]
@@ -132,12 +166,19 @@ def fix_up_entry_data_list_complete(
     return fixed_list
 
 
-if __name__ == "__main__":
+def scan_json_for_unusual_line_terminators(json_file: str) -> None:
+    with open(json_file, "r", encoding="utf-8") as f:
+        for line in f:
+            if line != remove_exotic_line_separators(line):
+                print("Found unusual line terminator: " + line)
+                print("Edited: " + remove_exotic_line_separators(line))
 
+
+if __name__ == "__main__":
+    # scan_json_for_unusual_line_terminators("ruwiktionary_words_fixed.json")
+    # quit()
     # Take arguments using Argparse
-    parser = argparse.ArgumentParser(
-        description="Fix up the entries in the dictionary"
-    )
+    parser = argparse.ArgumentParser(description="Fix up the entries in the dictionary")
     parser.add_argument(
         "--input_file",
         type=str,

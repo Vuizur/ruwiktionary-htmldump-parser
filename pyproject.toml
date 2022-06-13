@@ -9,6 +9,7 @@ python = "^3.10"
 lxml = "*"
 beautifulsoup4 = "*"
 pyglossary = "*"
+stressed_cyrillic_tools = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
