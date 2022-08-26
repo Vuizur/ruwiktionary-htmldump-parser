@@ -1,6 +1,6 @@
 # Russian Wiktionary HTML dump parser
 
-This parses the Russian entries of the Russian Wiktionary using the HTML dump that can be found [here](https://dumps.wikimedia.org/other/enterprise_html/) into a JSON file and into dictionaries for ebook readers. 
+This parses the Russian entries of the Russian Wiktionary using the HTML dump that can be found [here](https://dumps.wikimedia.org/other/enterprise_html/) into a JSON file and into dictionaries for ebook readers. Choose the file called  example ruwiktionary-NS0-(DATE)-ENTERPRISE-HTML.json
 
 At the end the output looks like this:
 ```

@@ -1,10 +1,7 @@
 import argparse
-from dataclasses import dataclass
-import dataclasses
 import logging
 import os
 import json
-import sys
 from bs4 import BeautifulSoup, PageElement
 import re
 

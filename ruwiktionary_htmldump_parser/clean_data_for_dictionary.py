@@ -1,3 +1,4 @@
+from typing import Callable
 from entry_data import EntryData
 from ruwiktionary_htmldump_parser.entry_data import (
     print_entry_data_list_to_json,
@@ -121,15 +122,31 @@ def remove_separate_inflection_entries(
 
 def remove_exotic_line_separators(word: str) -> str:
     """Turn exotic line separators into line breaks and also remove non-breaking spaces"""
+    # I choose HTML here because using \n will probably break sdcv -> Let's hope it works without
+    line_sep = "<br>"
     return (
-        word.replace("\u2028", "\n")
-        .replace("\u2029", "\n")
+        word.replace("\u2028",line_sep)
+        .replace("\u2029", line_sep)
         .replace("\u00a0", " ")
-        .replace("\u0085", "\n")
-        .replace("\u000C", "\n")
-        .replace("\u000B", "\n")
+        .replace("\u0085", line_sep)
+        .replace("\u000C", line_sep)
+        .replace("\u000B", line_sep)
+        .replace("\n", line_sep)
     )
 
+
+def apply_function_to_each_entry(
+    entry_data_list: list[EntryData], function: Callable[[str], str]
+) -> list[EntryData]:
+    """This function applies a function to each word, definition, inflection, grammar info and IPA field in the entry data list"""
+
+    for entry_data in entry_data_list:
+        entry_data.word = function(entry_data.word)
+        entry_data.definitions = [function(definition) for definition in entry_data.definitions]
+        entry_data.inflections = [function(inflection) for inflection in entry_data.inflections]
+        entry_data.grammar_info = function(entry_data.grammar_info)
+        entry_data.IPA = function(entry_data.IPA)
+    return entry_data_list
 
 # Remove LS ans PS line separators from the entry data -> They break sdcv and KOReader
 def remove_ls_ps_line_separators(entry_data: EntryData) -> EntryData:
@@ -151,6 +168,7 @@ def remove_ls_ps_line_separators(entry_data: EntryData) -> EntryData:
 def fix_up_entry_data_list_complete(
     entry_data_list: list[EntryData],
 ) -> list[EntryData]:
+    print("DEPRECATED")        
 
     fixed_list = [
         remove_ls_ps_line_separators(
@@ -164,6 +182,12 @@ def fix_up_entry_data_list_complete(
     fixed_list = remove_separate_inflection_entries(fixed_list)
 
     return fixed_list
+
+#def fix_up_entry_data_list_new(
+#    entry_data_list: list[EntryData],
+#) -> list[EntryData]:
+#    # Apply remove_exotic_line_separators to each entry
+#    entry_data_list = apply_function_to_each_entry(entry_data_list, remove_exotic_line_separators)
 
 
 def scan_json_for_unusual_line_terminators(json_file: str) -> None:

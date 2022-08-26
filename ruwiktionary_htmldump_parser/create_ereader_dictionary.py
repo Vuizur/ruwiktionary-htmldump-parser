@@ -67,6 +67,8 @@ def create_ereader_dictionary(
 
     # Add the entries to the dictionary
     for entry_data in entry_data_list:
+        if len(entry_data.word) == 0:
+            continue
         word = get_all_inflections(entry_data)
         # Continue if no definitions are available
         if len(entry_data.definitions) == 0:
@@ -85,9 +87,10 @@ def create_ereader_dictionary(
     except:
         pass
     if output_format == "Stardict":
-        # Remove the extension from the output path
+        # It is done like this because currently the direct Stardict export does not work for some sort of unkown reason -> Some strange characters? No idea
         print("Writing dictionary to " + output_path + ".ifo")
-        glos.write(output_path + ".ifo", format="Stardict")
+        glos.write(output_path + ".txt", format="Tabfile")
+        glos.convert(inputFilename=output_path + ".txt", outputFilename=output_path + ".ifo", outputFormat="Stardict")
 
         convert_line_endings(output_path + ".ifo")
 
@@ -124,4 +127,8 @@ if __name__ == "__main__":
 
     #create_ereader_dictionary(
     #   "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.ifo", "Stardict"
+    #)
+
+    #create_ereader_dictionary(
+    #   "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt", "Tabfile"
     #)
