@@ -1,21 +1,21 @@
 [tool.poetry]
+authors = ["Vuizur <Vuizur@users.noreply.github.com>"]
+description = ""
 name = "ruwiktionary-htmldump-parser"
 version = "0.1.0"
-description = ""
-authors = ["Vuizur <Vuizur@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-lxml = "*"
 beautifulsoup4 = "*"
-pyglossary = "*"
+lxml = "*"
+pyglossary = {git = "https://github.com/Vuizur/pyglossary"}
+python = "^3.8"
 stressed_cyrillic_tools = "*"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
-mypy = "*"
 black = {version = "^22.3.0", allow-prereleases = true}
+mypy = "*"
+pytest = "^5.2"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
