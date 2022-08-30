@@ -6,7 +6,7 @@ from ruwiktionary_htmldump_parser.clean_data_for_dictionary import fix_up_entry_
 class HTMLDumpParser:
     
     # Init with parameters: wiktionary_dump_path, cleaned_data_path, output_path, by default all null
-    def __init__(self, wiktionary_dump_path: str = None, intermediate_data_path: str = None, cleaned_data_path: str = None):
+    def __init__(self, wiktionary_dump_path: str, intermediate_data_path: str = "ruwiktdata_int.json", cleaned_data_path: str = "ruwiktdata_cleaned.json"):
         self.wiktionary_dump_path = wiktionary_dump_path
         self.intermediate_data_path = intermediate_data_path
         self.cleaned_data_path = cleaned_data_path
