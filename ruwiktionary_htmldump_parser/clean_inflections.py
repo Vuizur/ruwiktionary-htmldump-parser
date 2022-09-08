@@ -1,4 +1,4 @@
-from entry_data import EntryData
+from ruwiktionary_htmldump_parser.entry_data import EntryData
 
 
 def word_is_useless_grammatical_info(word: str) -> bool:
@@ -62,3 +62,5 @@ def clean_inflection(entry_data: EntryData) -> EntryData:
     entry_data.inflections = fixed_inflections
     # Remove duplicates
     entry_data.inflections = list(set(entry_data.inflections))
+
+    return entry_data
