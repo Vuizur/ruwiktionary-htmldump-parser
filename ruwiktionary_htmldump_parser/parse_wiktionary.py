@@ -5,9 +5,8 @@ import json
 from bs4 import BeautifulSoup, PageElement
 import re
 
-from clean_inflections import clean_inflection
-from entry_data import EntryData
-from entry_data import print_entry_data_list_to_json
+from ruwiktionary_htmldump_parser.clean_inflections import clean_inflection
+from ruwiktionary_htmldump_parser.entry_data import EntryData, print_entry_data_list_to_json
 
 # has to contain cyrillic, but not the characters only other slavic languages have
 
