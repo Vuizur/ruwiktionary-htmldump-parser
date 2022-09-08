@@ -184,6 +184,7 @@ def extract_entries_from_html_dump(dump_folder_path, json_file_path) -> None:
 
 
 if __name__ == "__main__":
+    # Version 0.1.5
     # Take a command line parameter called "dump folder path" using Argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
