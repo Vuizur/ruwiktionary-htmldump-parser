@@ -1,6 +1,6 @@
 from typing import Callable
-from entry_data import EntryData
 from ruwiktionary_htmldump_parser.entry_data import (
+    EntryData,
     print_entry_data_list_to_json,
     read_json_to_entry_data_list,
 )
