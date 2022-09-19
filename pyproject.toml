@@ -11,10 +11,10 @@ pyglossary = {git = "https://github.com/Vuizur/pyglossary"}
 python = "^3.8"
 stressed_cyrillic_tools = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = {version = "^22.3.0", allow-prereleases = true}
 mypy = "*"
-pytest = "^5.2"
+pytest = "^7.1.3"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"

@@ -21,3 +21,4 @@ excerpt-ru-ru.syn
 sd-from-tabfile.txt
 stardict-direct.txt
 temp.txt
+tests/__pycache__/
