@@ -6,7 +6,7 @@ from ruwiktionary_htmldump_parser.entry_data import (
 )
 import argparse
 
-from stressed_cyrillic_tools import unaccentify
+from stressed_cyrillic_tools import unaccentify, fix_two_accent_marks
 
 # Here the a bit more agressive cleanup is performed
 
@@ -80,6 +80,26 @@ def remove_pointless_no_example_complaint(entry_data: EntryData) -> EntryData:
         ).strip()
         for definition in entry_data.definitions
     ]
+    return entry_data
+
+
+def add_alternative_pronunciation(entry_data: EntryData) -> EntryData:
+    if " или "in entry_data.word:
+        entry_data.alternative_form = entry_data.word.split(" или ")[1]
+        entry_data.word = entry_data.word.split(" или ")[0]
+
+    return entry_data
+
+
+def remove_·_form_word(entry_data: EntryData) -> EntryData:
+    if "·" in entry_data.word:
+        entry_data.word = entry_data.word.replace("·", "")
+    return entry_data
+
+
+def remove_double_stress(entry_data: EntryData) -> EntryData:
+    entry_data.word = fix_two_accent_marks(entry_data.word)
+    entry_data.inflections = [fix_two_accent_marks(inflection) for inflection in entry_data.inflections]
     return entry_data
 
 
@@ -173,12 +193,18 @@ def remove_ls_ps_line_separators(entry_data: EntryData) -> EntryData:
 def fix_up_entry_data_list_complete(
     entry_data_list: list[EntryData],
 ) -> list[EntryData]:
-    print("DEPRECATED")
+    # print("DEPRECATED")
 
     fixed_list = [
-        remove_ls_ps_line_separators(
-            remove_pointless_no_example_complaint(
-                add_comparative_from_grammar_info_to_inflections(entry_data)
+        remove_double_stress(
+            add_alternative_pronunciation(
+                remove_·_form_word(
+                    remove_ls_ps_line_separators(
+                        remove_pointless_no_example_complaint(
+                            add_comparative_from_grammar_info_to_inflections(entry_data)
+                        )
+                    )
+                )
             )
         )
         for entry_data in entry_data_list

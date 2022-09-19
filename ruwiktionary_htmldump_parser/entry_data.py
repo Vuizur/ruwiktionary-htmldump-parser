@@ -1,5 +1,6 @@
 import dataclasses
 import json
+from typing import Optional
 
 
 @dataclasses.dataclass
@@ -7,6 +8,7 @@ class EntryData:
     """Contains the data of one etymology"""
 
     word: str
+    alternative_form: Optional[str] = None
     inflections: list[str] = dataclasses.field(default_factory=list)
     definitions: list[str] = dataclasses.field(default_factory=list)
     grammar_info: str = ""
