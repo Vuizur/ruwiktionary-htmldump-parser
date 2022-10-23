@@ -2,7 +2,7 @@
 authors = ["Vuizur <Vuizur@users.noreply.github.com>"]
 description = "A parser of the Russian Wiktionary HTML dump which extracts its data into a JSON file"
 name = "ruwiktionary-htmldump-parser"
-version = "0.1.6"
+version = "0.1.7"
 
 [tool.poetry.dependencies]
 beautifulsoup4 = "*"

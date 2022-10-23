@@ -91,7 +91,7 @@ def add_alternative_pronunciation(entry_data: EntryData) -> EntryData:
     return entry_data
 
 
-def remove_·_form_word(entry_data: EntryData) -> EntryData:
+def remove_·_from_word(entry_data: EntryData) -> EntryData:
     if "·" in entry_data.word:
         entry_data.word = entry_data.word.replace("·", "")
     return entry_data
@@ -140,10 +140,13 @@ def remove_separate_inflection_entries(
     return filtered_entry_data_list
 
 
-def remove_exotic_line_separators(word: str) -> str:
+def remove_exotic_line_separators(word: str, is_headword = False) -> str:
     """Turn exotic line separators into line breaks and also remove non-breaking spaces"""
     # I choose HTML here because using \n will probably break sdcv -> Let's hope it works without
-    line_sep = "<br>"
+    if is_headword:
+        line_sep = ""
+    else:
+        line_sep = "<br>"
     return (
         word.replace("\u2028", line_sep)
         .replace("\u2029", line_sep)
@@ -179,7 +182,7 @@ def remove_ls_ps_line_separators(entry_data: EntryData) -> EntryData:
         remove_exotic_line_separators(definition)
         for definition in entry_data.definitions
     ]
-    entry_data.word = remove_exotic_line_separators(entry_data.word)
+    entry_data.word = remove_exotic_line_separators(entry_data.word, is_headword=True)
     entry_data.inflections = [
         remove_exotic_line_separators(inflection)
         for inflection in entry_data.inflections
@@ -198,7 +201,7 @@ def fix_up_entry_data_list_complete(
     fixed_list = [
         remove_double_stress(
             add_alternative_pronunciation(
-                remove_·_form_word(
+                remove_·_from_word(
                     remove_ls_ps_line_separators(
                         remove_pointless_no_example_complaint(
                             add_comparative_from_grammar_info_to_inflections(entry_data)
