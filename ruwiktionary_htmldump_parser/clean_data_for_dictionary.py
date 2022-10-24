@@ -77,7 +77,7 @@ def remove_pointless_no_example_complaint(entry_data: EntryData) -> EntryData:
     entry_data.definitions = [
         definition.replace(
             "◆ Отсутствует пример употребления (см. рекомендации).", ""
-        ).strip()
+        ).replace("[≈ 1]", "").replace("[≠ 1]", "").replace("[▲ 1]", "").replace("[▼ 1]", "").strip()
         for definition in entry_data.definitions
     ]
     return entry_data
