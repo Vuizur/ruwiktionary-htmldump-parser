@@ -152,7 +152,7 @@ def get_stressed_words_from_html(html: str) -> list[EntryData]:
         return []
 
 
-def extract_entries_from_html_dump(dump_folder_path, json_file_path) -> None:
+def extract_entries_from_html_dump(dump_folder_path: str, json_file_path: str) -> None:
     """Extracts entries from the HTML dump and dumps them to a JSON file"""
     entry_data_all_words: list[EntryData] = []
     i = 0
