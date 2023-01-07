@@ -41,3 +41,6 @@ Then run `poetry run python ./ruwiktionary_htmldump_parser/create_ereader_dictio
 
 ## Additional info
 Be aware that for me on Windows the HTML dumps could only be unpacked using Winrar and not 7-zip
+
+## Contributing
+Feel free to send pull requests or open issues!
