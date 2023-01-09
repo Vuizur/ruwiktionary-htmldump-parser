@@ -1,0 +1,36 @@
+name: create-dictionary
+# Manually trigger this workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  create-dictionary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Run Poetry
+        uses: abatilo/actions-poetry@v2
+        with: 
+          poetry-version: "1.3.1"
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.create false
+          poetry install --without dev
+      - name: Run script
+        run: |
+          poetry run python run_everything.py
+        # Upload the files "ruwiktdata_cleaned.json" and "Russian-Russian-wiktionary.tar.gz"
+        # to the repository as artifacts
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ruwiktionary_words.json
+            ruwiktionary_words_fixed.json
+            Russian-Russian dictionary (Wiktionary).tar.gz

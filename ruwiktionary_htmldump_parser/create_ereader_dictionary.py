@@ -5,6 +5,8 @@ from ruwiktionary_htmldump_parser.entry_data import (
 from pyglossary.glossary import Glossary
 
 from stressed_cyrillic_tools import unaccentify
+import os
+import tarfile
 
 
 def get_all_inflections(entry_data: EntryData):
@@ -53,7 +55,7 @@ def convert_line_endings(file_path: str):
 
 
 def create_ereader_dictionary(
-    input_json_file_name: str, output_path: str, output_format
+    input_json_file_name: str, output_path: str, output_format="Stardict"
 ):
     """Creates an Ereader dictionary out of the JSON file using Pyglossary"""
 
@@ -73,7 +75,7 @@ def create_ereader_dictionary(
         # Continue if no definitions are available
         if len(entry_data.definitions) == 0:
             continue
-        
+
         html = generate_html_from_definitions(entry_data.definitions)
         glos.addEntryObj(glos.newEntry(word, html, defiFormat="h"))
 
@@ -90,7 +92,11 @@ def create_ereader_dictionary(
         # It is done like this because currently the direct Stardict export does not work for some sort of unkown reason -> Some strange characters? No idea
         print("Writing dictionary to " + output_path + ".ifo")
         glos.write(output_path + ".txt", format="Tabfile")
-        glos.convert(inputFilename=output_path + ".txt", outputFilename=output_path + ".ifo", outputFormat="Stardict")
+        glos.convert(
+            inputFilename=output_path + ".txt",
+            outputFilename=output_path + ".ifo",
+            outputFormat="Stardict",
+        )
 
         convert_line_endings(output_path + ".ifo")
 
@@ -99,8 +105,31 @@ def create_ereader_dictionary(
         glos.write(output_path + ".txt", format="Tabfile")
 
 
-if __name__ == "__main__":
+def pack_stardict_dictionary(
+    dictionary_ifo_path: str, tar_gz_path="Russian-Russian-wiktionary.tar.gz"
+):
+    """Packs the given Stardict dictionary into a .tar.gz file"""
 
+    # Create a tar file
+    with tarfile.open(tar_gz_path, "w:gz") as tar:
+        # Add the files to the tar file
+        tar.add(dictionary_ifo_path, arcname=os.path.basename(dictionary_ifo_path))
+        dictionary_base_path = dictionary_ifo_path.rsplit(".", 1)[0]
+        tar.add(
+            dictionary_base_path + ".dict.dz",
+            arcname=os.path.basename(dictionary_base_path) + ".dict.dz",
+        )
+        tar.add(
+            dictionary_base_path + ".idx",
+            arcname=os.path.basename(dictionary_base_path) + ".idx",
+        )
+        tar.add(
+            dictionary_base_path + ".syn",
+            arcname=os.path.basename(dictionary_base_path) + ".syn",
+        )
+
+
+if __name__ == "__main__":
     # Create a CLI using argparse#
     import argparse
 
@@ -121,14 +150,12 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    create_ereader_dictionary(
-        args.json_file_name, args.output_path, args.output_format
-    )
+    create_ereader_dictionary(args.json_file_name, args.output_path, args.output_format)
 
-    #create_ereader_dictionary(
+    # create_ereader_dictionary(
     #   "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.ifo", "Stardict"
-    #)
+    # )
 
-    #create_ereader_dictionary(
+    # create_ereader_dictionary(
     #   "ruwiktionary_words_fixed.json", "Russian-Russian dictionary.txt", "Tabfile"
-    #)
+    # )

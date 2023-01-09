@@ -7,6 +7,7 @@ import re
 
 from ruwiktionary_htmldump_parser.clean_inflections import clean_inflection
 from ruwiktionary_htmldump_parser.entry_data import EntryData, print_entry_data_list_to_json
+from wiktionary_dump_downloader import HtmlDumpDownloader
 
 # has to contain cyrillic, but not the characters only other slavic languages have
 
@@ -152,31 +153,29 @@ def get_stressed_words_from_html(html: str) -> list[EntryData]:
         return []
 
 
-def extract_entries_from_html_dump(dump_folder_path: str, json_file_path: str) -> None:
+def extract_entries_from_html_dump(json_file_path: str) -> None:
     """Extracts entries from the HTML dump and dumps them to a JSON file"""
     entry_data_all_words: list[EntryData] = []
     i = 0
-    for path in os.scandir(dump_folder_path):
-        filename = path.path
-        print(filename)
-        with open(filename, "r", encoding="utf-8") as f:
-            for line in f:
-                obj = json.loads(line)
-                name = obj["name"]
-                if can_be_russian(name):
-                    try:
-                        entry_data_list = get_stressed_words_from_html(
-                            obj["article_body"]["html"]
-                        )
-                        if entry_data_list != None:
-                            entry_data_all_words.extend(entry_data_list)
-                    except Exception as e:
-                        print(f"PARSE ERROR for the word {name}: {e}")
-                        pass
-
-                i += 1
-                if i % 5000 == 0:
-                    print(i)
+    OUTPUT_PATH = "output_path"
+    dump_downloader = HtmlDumpDownloader("ru", "wiktionary", OUTPUT_PATH)
+       
+    for line in dump_downloader.unpack_dump():
+        obj = json.loads(line)
+        name = obj["name"]
+        if can_be_russian(name):
+            try:
+                entry_data_list = get_stressed_words_from_html(
+                    obj["article_body"]["html"]
+                )
+                if entry_data_list != None:
+                    entry_data_all_words.extend(entry_data_list)
+            except Exception as e:
+                print(f"PARSE ERROR for the word {name}: {e}")
+                pass
+        i += 1
+        if i % 5000 == 0:
+            print(i)
     for entry_data in entry_data_all_words:
         entry_data = clean_inflection(entry_data)
 
@@ -200,7 +199,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    extract_entries_from_html_dump(args.dump_folder_path, args.json_file_name)
+    extract_entries_from_html_dump(args.json_file_name)
 
     #json_path = "ruwiktionary_words.json"
     #dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
