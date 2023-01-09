@@ -527,7 +527,7 @@ requests = "^2.28.1"
 type = "git"
 url = "https://github.com/Vuizur/wiktionary-dump-downloader"
 reference = "HEAD"
-resolved_reference = "147dfbdf62d656f07654c8f31decb924390f7d99"
+resolved_reference = "1964cc3e3bcda8ad35269b55e1f24eaa97267df6"
 
 [metadata]
 lock-version = "2.0"
