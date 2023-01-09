@@ -6,9 +6,8 @@ if __name__ == "__main__":
         intermediate_data_path="ruwiktionary_words.json",
         cleaned_data_path="ruwiktionary_words_fixed.json",
     )
-    #parser.parse_wiktionary_dump()
-    #parser.clean_entries()
-    #parser.create_dictionary()
-    parser.output_path = "Russian-Russian dictionary (Wiktionary).ifo"
+    parser.parse_wiktionary_dump()
+    parser.clean_entries()
+    parser.create_dictionary()
     parser.pack_dictionary()
     
