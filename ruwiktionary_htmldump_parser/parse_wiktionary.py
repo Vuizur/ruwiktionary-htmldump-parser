@@ -114,8 +114,6 @@ def extract_entry_data_from_section(
     # Try to find an h3 with the id "Перевод"
         translation_section = next_sbln.find("h3", id=re.compile("Перевод"))
         if translation_section != None:
-            print(translation_section)
-        if translation_section != None:
             # Find the first sibling table of the translation section
             translation_table = translation_section.find_next_sibling("table")
             if translation_table != None:
@@ -199,7 +197,6 @@ def extract_entries_from_html_dump(json_file_path: str) -> None:
         i += 1
         if i % 5000 == 0:
             print(i)
-            break
     #for entry_data in entry_data_all_words:
     #    entry_data = clean_inflection(entry_data)
 
