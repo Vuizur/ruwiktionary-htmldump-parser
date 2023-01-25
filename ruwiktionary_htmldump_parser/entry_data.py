@@ -15,6 +15,7 @@ class EntryData:
     definitions: list[str] = dataclasses.field(default_factory=list)
     grammar_info: str = ""
     IPA: str = ""
+    translations: list[str] = dataclasses.field(default_factory=list)
     # synonyms : list[str] = dataclasses.field(default_factory=list)
 
 

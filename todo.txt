@@ -45,3 +45,9 @@ fix entries like  "раздо́ятся / раздоя́тся",
 fix the "word" key of abbreviations (currently empty)
 
 Add e dictionary export to htmldumpparser
+
+Add better support for translations
+
+Merge back to main branch
+
+Add back support for E dictionary creation

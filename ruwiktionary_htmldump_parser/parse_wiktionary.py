@@ -110,6 +110,22 @@ def extract_entry_data_from_section(
                 entry_data.IPA = next_sbln.find("span", class_="IPA").text
             except Exception:
                 logging.info("No pronunciation found in section: " + str(next_sbln))
+
+    # Try to find an h3 with the id "Перевод"
+        translation_section = next_sbln.find("h3", id=re.compile("Перевод"))
+        if translation_section != None:
+            print(translation_section)
+        if translation_section != None:
+            # Find the first sibling table of the translation section
+            translation_table = translation_section.find_next_sibling("table")
+            if translation_table != None:
+                # Find the first ul in the table
+                translation_ul = translation_table.find("ul")
+                if translation_ul != None:
+                    # Add the li text to the translations
+                    for li in translation_ul.find_all("li"):
+                        entry_data.translations.append(li.text.strip())
+    
     return entry_data
 
 
