@@ -8,6 +8,8 @@ class EntryData:
     """Contains the data of one etymology"""
 
     word: str
+    canonical_form: str
+    language: str
     alternative_form: Optional[str] = None
     inflections: list[str] = dataclasses.field(default_factory=list)
     definitions: list[str] = dataclasses.field(default_factory=list)

@@ -1,13 +1,16 @@
 import argparse
 import logging
-import os
 import json
 from bs4 import BeautifulSoup, PageElement
 import re
 
 from ruwiktionary_htmldump_parser.clean_inflections import clean_inflection
-from ruwiktionary_htmldump_parser.entry_data import EntryData, print_entry_data_list_to_json
+from ruwiktionary_htmldump_parser.entry_data import (
+    EntryData,
+    print_entry_data_list_to_json,
+)
 from wiktionary_dump_downloader import HtmlDumpDownloader
+from tqdm import tqdm
 
 # has to contain cyrillic, but not the characters only other slavic languages have
 
@@ -42,7 +45,6 @@ def get_morph_table_words(morph_table) -> list[str]:
     for row in rows:
         cells = row.find_all("td")
         for cell in cells[1:]:  # Leave out left definition cell
-
             words.extend(cell.get_text("|").split("|"))
 
     return [
@@ -67,7 +69,9 @@ def extract_definition_from_section(entry_data: EntryData, section: PageElement)
                 entry_data.definitions.append(li.text.strip())
 
 
-def extract_entry_data_from_section(morphology_section: PageElement) -> EntryData:
+def extract_entry_data_from_section(
+    morphology_section: PageElement, word: str, language: str
+) -> EntryData:
     # This takes a section with the format
     #  <section>
     #    <h3 id="Морфологические и синтаксические свойства">
@@ -80,7 +84,7 @@ def extract_entry_data_from_section(morphology_section: PageElement) -> EntryDat
         # This does sometimes happen with weird formatted (second) etymologies
         logging.info("No lemma found in section: " + str(morphology_section))
         return None
-    entry_data = EntryData(lemma)
+    entry_data = EntryData(word, lemma, language)
 
     try:
         # Find the second paragraph tag in the morphology section
@@ -122,35 +126,38 @@ def append_definition_to_entry_data(
             extract_definition_from_section(entry_data, next_sbln.find("section"))
 
 
-def get_stressed_words_from_html(html: str) -> list[EntryData]:
-
+def get_stressed_words_from_html(html: str, word: str) -> list[EntryData]:
     # Lxml should be faster than the standard parser
     soup = BeautifulSoup(html, "lxml")
     # Important: The HTML dump pages are structured differently from the online hosted version
-    russian_h1 = soup.find("h1", id="Русский")
-    if russian_h1 != None:
-        for sibling in russian_h1.next_siblings:
-            if sibling.name == "section":
-                if not section_contains_two_etymologies(sibling):
-                    entry_data = extract_entry_data_from_section(sibling)
-                    if entry_data != None:
-                        return [entry_data]
-                else:
-                    entry_data_list: list[EntryData] = []
-                    # Each iteration here iterates over on etymology
-                    for sibling in russian_h1.next_siblings:
-                        if sibling.name == "section":
-                            # Get first subsection
-                            first_subsection = sibling.find("section")
-                            entry_data = extract_entry_data_from_section(
-                                first_subsection
-                            )
-                            if entry_data != None:
-                                entry_data_list.append(entry_data)
-                    return entry_data_list
-        return []
-    else:
-        return []
+    h1s = soup.find_all("h1")  # , id="Русский")
+    # The language is the h1 id
+    entry_data_list: list[EntryData] = []
+
+    for h1 in h1s:
+        language = h1["id"]
+        if h1 != None:
+            for sibling in h1.next_siblings:
+                if sibling.name == "section":
+                    if not section_contains_two_etymologies(sibling):
+                        entry_data = extract_entry_data_from_section(
+                            sibling, word, language
+                        )
+                        if entry_data != None:
+                            entry_data_list.append(entry_data)
+                    else:
+                        # Each iteration here iterates over on etymology
+                        for sibling in h1.next_siblings:
+                            if sibling.name == "section":
+                                # Get first subsection
+                                first_subsection = sibling.find("section")
+                                entry_data = extract_entry_data_from_section(
+                                    first_subsection, word, language
+                                )
+                                if entry_data != None:
+                                    entry_data_list.append(entry_data)
+
+    return entry_data_list
 
 
 def extract_entries_from_html_dump(json_file_path: str) -> None:
@@ -159,25 +166,26 @@ def extract_entries_from_html_dump(json_file_path: str) -> None:
     i = 0
     OUTPUT_PATH = "output_path"
     dump_downloader = HtmlDumpDownloader("ru", "wiktionary", OUTPUT_PATH)
-       
-    for line in dump_downloader.unpack_dump():
+
+    for line in tqdm(dump_downloader.unpack_dump()):
         obj = json.loads(line)
         name = obj["name"]
-        if can_be_russian(name):
-            try:
-                entry_data_list = get_stressed_words_from_html(
-                    obj["article_body"]["html"]
-                )
-                if entry_data_list != None:
-                    entry_data_all_words.extend(entry_data_list)
-            except Exception as e:
-                print(f"PARSE ERROR for the word {name}: {e}")
-                pass
+        # if can_be_russian(name):
+        try:
+            entry_data_list = get_stressed_words_from_html(
+                obj["article_body"]["html"], name
+            )
+            if entry_data_list != None:
+                entry_data_all_words.extend(entry_data_list)
+        except Exception as e:
+            print(f"PARSE ERROR for the word {name}: {e}")
+            pass
         i += 1
         if i % 5000 == 0:
             print(i)
-    for entry_data in entry_data_all_words:
-        entry_data = clean_inflection(entry_data)
+            break
+    #for entry_data in entry_data_all_words:
+    #    entry_data = clean_inflection(entry_data)
 
     print_entry_data_list_to_json(entry_data_all_words, json_file_path)
 
@@ -201,6 +209,6 @@ if __name__ == "__main__":
 
     extract_entries_from_html_dump(args.json_file_name)
 
-    #json_path = "ruwiktionary_words.json"
-    #dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
-    #extract_entries_from_html_dump(dump_folder_path, json_path)
+    # json_path = "ruwiktionary_words.json"
+    # dump_folder_path = "D:/ruwiktionary-NS0-20220501-ENTERPRISE-HTML.json"
+    # extract_entries_from_html_dump(dump_folder_path, json_path)
