@@ -97,7 +97,7 @@ def extract_entry_data_from_section(
         # This does sometimes happen with weird formatted (second) etymologies
         logging.info("No grammar info found in section: " + str(morphology_section))
 
-    morpher_table = morphology_section.find("table", {"class": "morfotable"})
+    morpher_table = morphology_section.find("table") #, {"class": "morfotable"})
 
     if morpher_table != None:
         entry_data.inflections.extend(get_morph_table_words(morpher_table))
