@@ -8,17 +8,18 @@ Russian-Russian dict/
 ruwiktionary_htmldump_parser/create_ereader_dictionary.py
 Russian-Russian-dict/
 Russian-Russian-dict.zip
-Russian-Russian dictionary.idx
-Russian-Russian dictionary.dict.dz
-Russian-Russian dictionary.ifo
-Russian-Russian dictionary.syn
-Russian-Russian dictionary.dict
-excerpt-ru-ru.dict.dz
-excerpt-ru-ru.idx
-excerpt-ru-ru.ifo
-excerpt-ru-ru.syn
+*.idx
+*.dict.dz
+*.ifo
+*.syn
+*.dict
 sd-from-tabfile.txt
 stardict-direct.txt
 temp.txt
 tests/__pycache__/
 *.dict.dz
+tests/find_words_that_have_wrongly_stressed_letters.py
+*.tar.gz
+*.json
+*.ndjson
+*.txt
